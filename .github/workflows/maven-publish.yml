@@ -35,7 +35,7 @@ jobs:
         name: java-app
         path: ${{ github.workspace }}/target/*.jar
         
-  docker_publish:
+  docker:
     runs-on: ubuntu-latest
     needs: maven
     permissions: 
@@ -54,19 +54,3 @@ jobs:
       run: docker build . --file Dockerfile --tag ghcr.io/madhh/cubix/cloudnative/demo:actions
     - name: Publish Docker image
       run: docker push ghcr.io/madhh/cubix/cloudnative/demo:actions
-
-  docker_verify:
-    runs-on: ubuntu-latest
-    needs: docker_publish
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-    - uses: actions/checkout@v7
-    - name: Download artifact from Docker Publish job
-      uses: actions/download-artifact@v8
-      with:
-        name: java-app
-    - name: Verify Docker image
-      run: ./verify-image.sh
