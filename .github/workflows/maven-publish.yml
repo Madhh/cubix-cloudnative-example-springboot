@@ -67,6 +67,6 @@ jobs:
     - name: Download artifact from Docker Publish job
       uses: actions/download-artifact@v8
       with:
-        name: java.app
+        name: java-app
     - name: Verify Docker image
       run: ./verify-image.sh
